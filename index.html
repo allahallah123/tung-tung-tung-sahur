@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz ABCD</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="quiz-app">
+      <h1>Code Quiz Game (ABCD)</h1>
+      <p class="subtitle">Chọn đáp án đúng để ghi điểm.</p>
+
+      <section class="quiz-card">
+        <div class="quiz-meta">
+          <span id="question-number"></span>
+          <span id="score"></span>
+        </div>
+
+        <h2 id="question-text"></h2>
+        <div id="options" class="options" role="group" aria-label="Các đáp án"></div>
+
+        <p id="feedback" class="feedback" aria-live="polite"></p>
+
+        <button id="next-button" class="next-button" disabled>Câu tiếp theo</button>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
