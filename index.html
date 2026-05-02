@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCP-173 | The Sculpture</title>
+    <style>
+      :root {
+        --bg: #090909;
+        --card: #151515;
+        --accent: #e63946;
+        --text: #f2f2f2;
+        --muted: #bbbbbb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle at 20% 20%, #1f1f1f, var(--bg) 60%);
+        color: var(--text);
+        min-height: 100vh;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+      }
+
+      .panel {
+        width: min(900px, 100%);
+        background: rgba(21, 21, 21, 0.9);
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
+
+      .panel-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #2c2c2c;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .badge {
+        background: var(--accent);
+        color: white;
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 1rem;
+        padding: 1.5rem;
+      }
+
+      .image {
+        border-radius: 14px;
+        background: linear-gradient(155deg, #222, #111);
+        border: 1px solid #2f2f2f;
+        min-height: 320px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        color: var(--muted);
+        padding: 1rem;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.5rem, 2.8vw, 2.3rem);
+      }
+
+      h2 {
+        margin: 0 0 0.7rem;
+        color: var(--accent);
+        font-size: 1.05rem;
+      }
+
+      p {
+        margin: 0 0 1rem;
+        line-height: 1.55;
+        color: #d9d9d9;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1rem;
+      }
+
+      li {
+        margin-bottom: 0.6rem;
+        color: #cfcfcf;
+      }
+
+      .note {
+        margin-top: 1.2rem;
+        padding: 0.9rem;
+        background: #1a1a1a;
+        border: 1px solid #2b2b2b;
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        color: #e5e5e5;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 800px) {
+        .content {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="hero">
+      <section class="panel">
+        <div class="panel-header">
+          <h1>SCP-173 — "The Sculpture"</h1>
+          <span class="badge">Euclid</span>
+        </div>
+
+        <div class="content">
+          <div class="image">
+            <div>
+              <strong>Containment Subject Visual Placeholder</strong>
+              <p>
+                Add your own image/art of SCP-173 here. Keep eyes on it at all
+                times.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h2>Special Containment Procedures</h2>
+            <p>
+              SCP-173 is to be kept in a locked container at all times. Personnel
+              entering the chamber must ensure direct line-of-sight is maintained
+              and should verbally confirm blinking before any eye closure.
+            </p>
+
+            <h2>Description</h2>
+            <p>
+              SCP-173 appears as a concrete statue with traces of rebar and spray
+              paint. The entity remains motionless while observed, but can move at
+              high speed when line-of-sight is interrupted.
+            </p>
+
+            <ul>
+              <li>Do not turn your back.</li>
+              <li>Do not blink without warning your team.</li>
+              <li>Never leave the chamber unsecured.</li>
+            </ul>
+
+            <div class="note">
+              This fan webpage is inspired by the SCP Foundation fiction project.
+              For official lore, visit the SCP Wiki.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
