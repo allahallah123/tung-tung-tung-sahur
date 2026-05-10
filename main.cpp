@@ -1,4 +1,23 @@
-<!DOCTYPE html>
+#include <arpa/inet.h>
+#include <csignal>
+#include <cstring>
+#include <iostream>
+#include <netinet/in.h>
+#include <sstream>
+#include <string>
+#include <sys/socket.h>
+#include <unistd.h>
+
+namespace {
+
+volatile std::sig_atomic_t keepRunning = 1;
+
+void handleSignal(int) {
+  keepRunning = 0;
+}
+
+std::string page() {
+  return R"HTML(<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -528,4 +547,78 @@
     </div>
   </footer>
 </body>
-</html>
+</html>)HTML";
+}
+
+std::string response(const std::string &body) {
+  std::ostringstream out;
+  out << "HTTP/1.1 200 OK\r\n"
+      << "Content-Type: text/html; charset=UTF-8\r\n"
+      << "Cache-Control: no-store\r\n"
+      << "Content-Length: " << body.size() << "\r\n"
+      << "Connection: close\r\n\r\n"
+      << body;
+  return out.str();
+}
+
+} // namespace
+
+int main(int argc, char **argv) {
+  std::signal(SIGINT, handleSignal);
+  std::signal(SIGTERM, handleSignal);
+
+  int port = 8080;
+  if (argc > 1) {
+    port = std::stoi(argv[1]);
+  }
+
+  int serverFd = socket(AF_INET, SOCK_STREAM, 0);
+  if (serverFd < 0) {
+    std::cerr << "Failed to create socket: " << std::strerror(errno) << '\n';
+    return 1;
+  }
+
+  int option = 1;
+  setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
+
+  sockaddr_in address{};
+  address.sin_family = AF_INET;
+  address.sin_addr.s_addr = INADDR_ANY;
+  address.sin_port = htons(static_cast<uint16_t>(port));
+
+  if (bind(serverFd, reinterpret_cast<sockaddr *>(&address), sizeof(address)) < 0) {
+    std::cerr << "Failed to bind port " << port << ": " << std::strerror(errno) << '\n';
+    close(serverFd);
+    return 1;
+  }
+
+  if (listen(serverFd, 12) < 0) {
+    std::cerr << "Failed to listen: " << std::strerror(errno) << '\n';
+    close(serverFd);
+    return 1;
+  }
+
+  std::cout << "SCP Foundation console running at http://localhost:" << port << "\n";
+  const std::string html = page();
+  const std::string httpResponse = response(html);
+
+  while (keepRunning) {
+    sockaddr_in clientAddress{};
+    socklen_t clientLength = sizeof(clientAddress);
+    int clientFd = accept(serverFd, reinterpret_cast<sockaddr *>(&clientAddress), &clientLength);
+    if (clientFd < 0) {
+      if (keepRunning) {
+        std::cerr << "Accept failed: " << std::strerror(errno) << '\n';
+      }
+      continue;
+    }
+
+    char buffer[2048];
+    recv(clientFd, buffer, sizeof(buffer), 0);
+    send(clientFd, httpResponse.c_str(), httpResponse.size(), 0);
+    close(clientFd);
+  }
+
+  close(serverFd);
+  return 0;
+}
